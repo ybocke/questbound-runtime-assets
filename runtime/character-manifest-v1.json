@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "characterSystemVersion": "v1",
+  "presentationModes": ["2d", "3d"],
+  "safety": {
+    "rawBaseBodyMayRenderAlone": false,
+    "required3DClothingCoverage": ["ARMS", "BODY", "LEGS", "FEET"],
+    "fallbackPolicy": "If any required clothing component is unavailable, keep the raw base body hidden and use the safe fallback renderer."
+  },
+  "starterLoadouts": {
+    "QB_STARTER_PEASANT_M": {
+      "body": "QB_CHAR_BODY_TEEN_M",
+      "requiredOutfit": "QB_OUTFIT_STARTER_PEASANT_M",
+      "hair": "QB_CHAR_HAIR_M_SIMPLE_PARTED"
+    },
+    "QB_STARTER_PEASANT_F": {
+      "body": "QB_CHAR_BODY_TEEN_F",
+      "requiredOutfit": "QB_OUTFIT_STARTER_PEASANT_F",
+      "hair": "QB_CHAR_HAIR_F_BOB"
+    }
+  },
+  "items": {
+    "QB_OUTFIT_STARTER_PEASANT_M": {
+      "category": "starter_outfit",
+      "requiredForSafeRender": true,
+      "coverage": ["ARMS", "BODY", "LEGS", "FEET"],
+      "representations": {
+        "3d": {
+          "status": "built-awaiting-upload",
+          "model": "characters/gear/qb-starter-peasant-m-v1.glb",
+          "meshes": ["Male_Peasant_Arms", "Male_Peasant_Body", "Male_Peasant_Legs", "Male_Peasant_Feet"]
+        },
+        "2d": {
+          "status": "planned",
+          "image": null
+        }
+      }
+    },
+    "QB_OUTFIT_STARTER_PEASANT_F": {
+      "category": "starter_outfit",
+      "requiredForSafeRender": true,
+      "coverage": ["ARMS", "BODY", "LEGS", "FEET"],
+      "representations": {
+        "3d": {
+          "status": "built-awaiting-upload",
+          "model": "characters/gear/qb-starter-peasant-f-v1.glb",
+          "meshes": ["Female_Peasant_Arms", "Female_Peasant_Body", "Female_Peasant_Legs", "Female_Peasant_Feet"]
+        },
+        "2d": {
+          "status": "planned",
+          "image": null
+        }
+      }
+    }
+  }
+}

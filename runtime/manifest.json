@@ -1,22 +1,124 @@
 {
   "schemaVersion": 1,
   "runtimeVersion": "v1",
-  "status": "scaffold",
-  "baseUrl": "./",
+  "status": "source-selection-complete-awaiting-runtime-build",
+  "baseUrl": "https://ybocke.github.io/questbound-runtime-assets/",
   "characters": {
-    "teenMale": {"status":"source-selection-pending","model":null},
-    "teenFemale": {"status":"source-selection-pending","model":null}
+    "QB_CHAR_BODY_TEEN_M": {
+      "status": "selected",
+      "runtimePath": "characters/bodies/qb-teen-male-v1.glb",
+      "source": {
+        "pack": "Universal Base Characters[Source]",
+        "gltf": "Teen_Male_FullBody.gltf",
+        "gltfDriveId": "1FakLIqnlMXvNXhXjxfScxDJp8-aYgAyq",
+        "bin": "Teen_Male_FullBody.bin",
+        "binDriveId": "1dWfXmo-TD1NXd7OhNkes_cYXrlhng4g2"
+      }
+    },
+    "QB_CHAR_BODY_TEEN_F": {
+      "status": "selected",
+      "runtimePath": "characters/bodies/qb-teen-female-v1.glb",
+      "source": {
+        "pack": "Universal Base Characters[Source]",
+        "gltf": "Teen_Female_FullBody.gltf",
+        "gltfDriveId": "1llvBk8JXtG0CD-DGTBfgOstdEPkJgCfe",
+        "bin": "Teen_Female_FullBody.bin",
+        "binDriveId": "1nredDQ-T9glRgf8VDmBfolqWu--bcVco"
+      }
+    }
   },
   "equipment": {
-    "hair": [],
-    "gear": []
+    "hair": [
+      {
+        "id": "QB_CHAR_HAIR_F_BOB",
+        "runtimePath": "characters/hair/qb-hair-f-bob-v1.glb",
+        "sourceGltf": "Hair_Bob_Teen.gltf",
+        "sourceGltfDriveId": "1fRSgpeAGW-Gaiu4y_RuDvKFC1exNLmRm",
+        "sourceBin": "Hair_Bob_Teen.bin",
+        "sourceBinDriveId": "1U4h8aWcOs2En3AtdUxqkGzN8I31IUKzk"
+      },
+      {
+        "id": "QB_CHAR_HAIR_M_SIMPLE_PARTED",
+        "runtimePath": "characters/hair/qb-hair-m-simple-parted-v1.glb",
+        "sourceGltf": "Hair_SimpleParted_Teen.gltf",
+        "sourceGltfDriveId": "1CVh3miadqU-J6ouy6FCSqcj9YF8pBsTw",
+        "sourceBin": "Hair_SimpleParted_Teen.bin",
+        "sourceBinDriveId": "108m9aKvhHegxQEccCzZv6-GN7_xb4tpz"
+      }
+    ],
+    "gear": [
+      {
+        "id": "QB_GEAR_KNIGHT_BODY_ARMOR_M",
+        "slot": "BODY",
+        "runtimePath": "characters/gear/qb-knight-body-armor-m-v1.glb",
+        "sourceGltf": "Male_Knight_Body_Armor.gltf",
+        "sourceGltfDriveId": "1-CYbsGBoa-3V9UvSfVkev5W4Tm8vl4gi",
+        "sourceBin": "Male_Knight_Body_Armor.bin",
+        "sourceBinDriveId": "187BDHKovhgWI6dm2maVIBcVtDZ8SttPX"
+      },
+      {
+        "id": "QB_GEAR_KNIGHT_BODY_ARMOR_F",
+        "slot": "BODY",
+        "runtimePath": "characters/gear/qb-knight-body-armor-f-v1.glb",
+        "sourceGltf": "Female_Knight_Body_Armor.gltf",
+        "sourceGltfDriveId": "1utn95ZW4i2RsOj1rkLvueff4mJJLHyA9",
+        "sourceBin": "Female_Knight_Body_Armor.bin",
+        "sourceBinDriveId": "1bLdg59l5YM6-xnHpOmt1AzKyyxWKBGiS"
+      }
+    ]
   },
   "environments": {
-    "guildHall": {"status":"source-selection-pending","bundle":null}
+    "QB_SCENE_GUILD_HALL": {
+      "status": "selected-for-build",
+      "runtimePath": "environments/guild/qb-guild-hall-v1.glb",
+      "sourcePacks": [
+        "Medieval Village MegaKit[Source]",
+        "Fantasy Props MegaKit[Source]"
+      ],
+      "architectureSelection": [
+        "Wall_WoodWear_Window_Wide_Flat.gltf",
+        "Window_Wide_Flat1.gltf",
+        "Window_Wide_Round1.gltf",
+        "WindowShutters_Wide_Flat_Open.gltf",
+        "WindowShutters_Wide_Flat_Closed.gltf",
+        "Stair_Interior_Rails.gltf",
+        "Stair_Interior_Rails_Corner.gltf",
+        "Stair_Interior_Solid.gltf",
+        "Stair_Interior_SolidCorner.gltf"
+      ],
+      "propSelection": [
+        "WeaponStand.gltf",
+        "Workbench.gltf",
+        "Shelf_Arch.gltf",
+        "Shelf_Small_Bottles.gltf",
+        "Rug_1.gltf",
+        "Rug_Round.gltf",
+        "Scroll_1.gltf",
+        "Scroll_2.gltf",
+        "Runes.gltf",
+        "Sign_Armory.gltf",
+        "Sign_Potions.gltf"
+      ]
+    }
   },
   "animations": {
-    "status":"waiting-for-extracted-animation-library",
-    "bundle":null,
-    "clips":[]
+    "status": "blocked-until-source-zip-extracted",
+    "runtimePath": "animations/qb-humanoid-core-v1.glb",
+    "sourcePack": "Universal Animation Library[Source]",
+    "plannedClips": [
+      "Idle_Loop",
+      "Idle_LookAround_Loop",
+      "Walk_Loop",
+      "Jog_Fwd_Loop",
+      "Interact",
+      "PickUp_Kneeling",
+      "Celebration",
+      "Sitting_Enter",
+      "Sitting_Idle_Loop",
+      "Sitting_Exit",
+      "Counter_Give",
+      "Chest_Open",
+      "Idle_Talking_Loop"
+    ]
   }
 }

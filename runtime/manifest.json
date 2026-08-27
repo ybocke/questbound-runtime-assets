@@ -1,12 +1,22 @@
 {
   "schemaVersion": 1,
   "runtimeVersion": "v1",
-  "status": "source-selection-complete-awaiting-runtime-build",
+  "status": "runtime-binaries-built-awaiting-github-binary-upload",
   "baseUrl": "https://ybocke.github.io/questbound-runtime-assets/",
+  "build": {
+    "container": "GLB 2.0",
+    "textures": "embedded PNG",
+    "maxTextureDimension": 512,
+    "geometryCompression": "none-v1-baseline",
+    "gpuTextureCompression": "none-v1-baseline",
+    "validation": "GLB header/length valid; no external image URIs"
+  },
   "characters": {
     "QB_CHAR_BODY_TEEN_M": {
-      "status": "selected",
+      "status": "built",
       "runtimePath": "characters/bodies/qb-teen-male-v1.glb",
+      "bytes": 1966536,
+      "sha256": "227c0b042f1ff26fef4e6f9f82b59a14f23103bac7915b0d7f9618258bbec360",
       "source": {
         "pack": "Universal Base Characters[Source]",
         "gltf": "Teen_Male_FullBody.gltf",
@@ -16,8 +26,10 @@
       }
     },
     "QB_CHAR_BODY_TEEN_F": {
-      "status": "selected",
+      "status": "built",
       "runtimePath": "characters/bodies/qb-teen-female-v1.glb",
+      "bytes": 2058788,
+      "sha256": "2e437225a857d4db0a483f20ffd2bc817b5f36980ca327ed2c7d92107179f97a",
       "source": {
         "pack": "Universal Base Characters[Source]",
         "gltf": "Teen_Female_FullBody.gltf",
@@ -31,7 +43,10 @@
     "hair": [
       {
         "id": "QB_CHAR_HAIR_F_BOB",
+        "status": "built",
         "runtimePath": "characters/hair/qb-hair-f-bob-v1.glb",
+        "bytes": 950248,
+        "sha256": "9941b0109fa2d0b36ca1b300e1468ab5715df115883fd9cc89b1244a63c6abd5",
         "sourceGltf": "Hair_Bob_Teen.gltf",
         "sourceGltfDriveId": "1fRSgpeAGW-Gaiu4y_RuDvKFC1exNLmRm",
         "sourceBin": "Hair_Bob_Teen.bin",
@@ -39,7 +54,10 @@
       },
       {
         "id": "QB_CHAR_HAIR_M_SIMPLE_PARTED",
+        "status": "built",
         "runtimePath": "characters/hair/qb-hair-m-simple-parted-v1.glb",
+        "bytes": 674164,
+        "sha256": "d6b8877dd90321665b239ab21640db67f398aeed396af92b3377c7a0f9858718",
         "sourceGltf": "Hair_SimpleParted_Teen.gltf",
         "sourceGltfDriveId": "1CVh3miadqU-J6ouy6FCSqcj9YF8pBsTw",
         "sourceBin": "Hair_SimpleParted_Teen.bin",
@@ -50,7 +68,10 @@
       {
         "id": "QB_GEAR_KNIGHT_BODY_ARMOR_M",
         "slot": "BODY",
+        "status": "built",
         "runtimePath": "characters/gear/qb-knight-body-armor-m-v1.glb",
+        "bytes": 1554188,
+        "sha256": "d3483c138e6700cc4d62189bdcc1370d36c2384a0cd637bc221bb01032d02c40",
         "sourceGltf": "Male_Knight_Body_Armor.gltf",
         "sourceGltfDriveId": "1-CYbsGBoa-3V9UvSfVkev5W4Tm8vl4gi",
         "sourceBin": "Male_Knight_Body_Armor.bin",
@@ -59,7 +80,10 @@
       {
         "id": "QB_GEAR_KNIGHT_BODY_ARMOR_F",
         "slot": "BODY",
+        "status": "built",
         "runtimePath": "characters/gear/qb-knight-body-armor-f-v1.glb",
+        "bytes": 1401704,
+        "sha256": "e6b977003ff56258ca25d3a096a7003489bff79dd34f5e9469fadf5f3ba440ca",
         "sourceGltf": "Female_Knight_Body_Armor.gltf",
         "sourceGltfDriveId": "1utn95ZW4i2RsOj1rkLvueff4mJJLHyA9",
         "sourceBin": "Female_Knight_Body_Armor.bin",
@@ -69,35 +93,28 @@
   },
   "environments": {
     "QB_SCENE_GUILD_HALL": {
-      "status": "selected-for-build",
-      "runtimePath": "environments/guild/qb-guild-hall-v1.glb",
+      "status": "component-build-in-progress",
+      "strategy": "hybrid-room-components-first",
+      "runtimeComponents": [
+        {
+          "id": "QB_ARCH_GUILD_WALL_WINDOW_WIDE",
+          "runtimePath": "environments/guild/qb-guild-wall-window-wide-v1.glb",
+          "bytes": 1354480,
+          "sha256": "a9ab41e8cbff906ce64d3cb6e288338063bf86919e9bfc203c635bec1cc049d6",
+          "source": "Wall_WoodWear_Window_Wide_Flat.gltf"
+        },
+        {
+          "id": "QB_ARCH_GUILD_WINDOW_WIDE",
+          "runtimePath": "environments/guild/qb-guild-window-wide-v1.glb",
+          "bytes": 668888,
+          "sha256": "76a47f43b127054497d4e90f19a94736d141713769799c80ebe43fe460dfd5bb",
+          "source": "Window_Wide_Flat1.gltf"
+        }
+      ],
+      "plannedRoomBundle": "environments/guild/qb-guild-hall-v1.glb",
       "sourcePacks": [
         "Medieval Village MegaKit[Source]",
         "Fantasy Props MegaKit[Source]"
-      ],
-      "architectureSelection": [
-        "Wall_WoodWear_Window_Wide_Flat.gltf",
-        "Window_Wide_Flat1.gltf",
-        "Window_Wide_Round1.gltf",
-        "WindowShutters_Wide_Flat_Open.gltf",
-        "WindowShutters_Wide_Flat_Closed.gltf",
-        "Stair_Interior_Rails.gltf",
-        "Stair_Interior_Rails_Corner.gltf",
-        "Stair_Interior_Solid.gltf",
-        "Stair_Interior_SolidCorner.gltf"
-      ],
-      "propSelection": [
-        "WeaponStand.gltf",
-        "Workbench.gltf",
-        "Shelf_Arch.gltf",
-        "Shelf_Small_Bottles.gltf",
-        "Rug_1.gltf",
-        "Rug_Round.gltf",
-        "Scroll_1.gltf",
-        "Scroll_2.gltf",
-        "Runes.gltf",
-        "Sign_Armory.gltf",
-        "Sign_Potions.gltf"
       ]
     }
   },

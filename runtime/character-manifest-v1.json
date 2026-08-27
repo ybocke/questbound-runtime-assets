@@ -26,9 +26,10 @@
       "coverage": ["ARMS", "BODY", "LEGS", "FEET"],
       "representations": {
         "3d": {
-          "status": "built-awaiting-upload",
+          "status": "published-dev",
           "model": "characters/gear/qb-starter-peasant-m-v1.glb",
-          "meshes": ["Male_Peasant_Arms", "Male_Peasant_Body", "Male_Peasant_Legs", "Male_Peasant_Feet"]
+          "meshes": ["Male_Peasant_Arms", "Male_Peasant_Body", "Male_Peasant_Legs", "Male_Peasant_Feet"],
+          "skeletonJoints": 65
         },
         "2d": {
           "status": "planned",
@@ -42,9 +43,10 @@
       "coverage": ["ARMS", "BODY", "LEGS", "FEET"],
       "representations": {
         "3d": {
-          "status": "built-awaiting-upload",
+          "status": "published-dev",
           "model": "characters/gear/qb-starter-peasant-f-v1.glb",
-          "meshes": ["Female_Peasant_Arms", "Female_Peasant_Body", "Female_Peasant_Legs", "Female_Peasant_Feet"]
+          "meshes": ["Female_Peasant_Arms", "Female_Peasant_Body", "Female_Peasant_Legs", "Female_Peasant_Feet"],
+          "skeletonJoints": 65
         },
         "2d": {
           "status": "planned",
@@ -52,5 +54,8 @@
         }
       }
     }
+  },
+  "devNotes": {
+    "starterOutfitVerticalSlice": "The complete Peasant outfit is now the first real clothing pipeline test. Until a dedicated Teen-only-head runtime export is published, DEV may use a temporary school-safe head bridge and must never reveal the raw Teen full-body mesh as a fallback or loading intermediate."
   }
 }

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "runtimeVersion": "v1",
+  "status": "scaffold",
+  "baseUrl": "./",
+  "characters": {
+    "teenMale": {"status":"source-selection-pending","model":null},
+    "teenFemale": {"status":"source-selection-pending","model":null}
+  },
+  "equipment": {
+    "hair": [],
+    "gear": []
+  },
+  "environments": {
+    "guildHall": {"status":"source-selection-pending","bundle":null}
+  },
+  "animations": {
+    "status":"waiting-for-extracted-animation-library",
+    "bundle":null,
+    "clips":[]
+  }
+}

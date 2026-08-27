@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "QUESTBOUND_2D_RENDERER_V1",
+  "canvas": {"width": 1024, "height": 1024, "mode": "FULL_CANVAS"},
+  "renderer": "2D",
+  "sharedState": true,
+  "assets": {
+    "AV_HUMAN_BODY_STANDARD_001": {
+      "category": "BODY",
+      "family": "HUMAN",
+      "rig": "STANDARD",
+      "layerIndex": 30,
+      "representation": "INLINE_SAFE_PALETTE_BODY_V1",
+      "paletteSource": "Student Avatar Profile.baseTone",
+      "safeBase": true,
+      "notes": "Head, neck, forearms and hands only. No unclothed torso or legs are rendered."
+    },
+    "AV_UNIVERSAL_OUTFIT_TRAVELER_001": {
+      "category": "OUTFIT",
+      "family": "HUMAN",
+      "rig": "STANDARD",
+      "layerIndex": 100,
+      "requiredForSafeRender": true,
+      "url": "outfits/AV_UNIVERSAL_OUTFIT_TRAVELER_001__HUMAN_STANDARD__v1.svg",
+      "threeDPeer": "Male_Peasant_Outfit.gltf",
+      "notes": "First 2D/3D shared-ID starter outfit vertical slice."
+    }
+  }
+}

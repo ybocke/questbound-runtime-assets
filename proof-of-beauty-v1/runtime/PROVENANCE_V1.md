@@ -24,6 +24,9 @@ use stable QuestBound runtime names.
   identity for existing catalog item `AV_UNIVERSAL_HEADGEAR_WIZARD_001`.
 - `ui/qb-guild-cape-v1.webp`: generated supplementary presentation identity for
   existing catalog item `AV_UNIVERSAL_BACK_CAPE_001`.
+- `ui/qb-traveler-blade-v1.webp`: generated presentation polish derived from the
+  selected CC0 Quaternius `Sword.png`; it retains the catalog identity
+  `AV_UNIVERSAL_HELD_TRAVELER_BLADE_001`.
 - `characters/presentation/qb-ranger-hero-v1.webp`: generated 2.5D presentation
   render derived from the selected Quaternius Ranger silhouette and texture
   palette. It represents `AV_UNIVERSAL_OUTFIT_RANGER_001`; it is not a new item.

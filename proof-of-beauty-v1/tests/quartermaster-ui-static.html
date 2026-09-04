@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QuestBound Quartermaster V1 Test</title>
+<style>
+html,body{width:100%;height:100%;margin:0;background:#05080a;font-family:system-ui,sans-serif}
+button:focus-visible{outline:2px solid #7ee7ff;outline-offset:2px}
+dialog{padding:0}
+/* ============================================================
+       QUARTERMASTER V1 — PROOF OF BEAUTY (Student DEV only)
+       Prepared state paints; existing authoritative mutations buy/equip.
+       ============================================================ */
+    .qb-avatar-dialog.qb-qm-v1-dialog{
+      width:min(1500px,98vw);
+      height:min(940px,97vh);
+      max-width:98vw;
+      max-height:97vh;
+      border:1px solid #8e6b31;
+      border-radius:10px;
+      background:#090d11;
+      box-shadow:0 30px 100px rgba(0,0,0,.78),0 0 0 1px rgba(255,220,139,.12) inset;
+      overflow:hidden;
+    }
+    .qb-avatar-dialog.qb-qm-v1-dialog::backdrop{
+      background:rgba(2,5,8,.88);
+      backdrop-filter:blur(6px);
+    }
+    .qb-qm-v1{
+      --qm-gold:#e3b85b;
+      --qm-gold-soft:#9b7432;
+      --qm-ink:#070b0e;
+      --qm-blue:#102436;
+      --qm-cream:#f5e5bf;
+      height:100%;
+      display:grid;
+      grid-template-rows:70px minmax(0,1fr) 62px;
+      color:var(--qm-cream);
+      background:
+        radial-gradient(circle at 52% 18%,rgba(221,157,66,.12),transparent 30%),
+        linear-gradient(135deg,#0c141a,#070a0d 62%,#10100c);
+      font-family:Georgia,"Times New Roman",serif;
+      isolation:isolate;
+    }
+    .qb-qm-v1 *{box-sizing:border-box}
+    .qb-qm-v1 button{font:inherit}
+    .qb-qm-v1-top{
+      min-width:0;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:10px 18px 10px 22px;
+      border-bottom:1px solid rgba(225,184,91,.38);
+      background:linear-gradient(180deg,rgba(15,20,23,.98),rgba(8,12,15,.96));
+      box-shadow:0 8px 24px rgba(0,0,0,.3);
+      z-index:5;
+    }
+    .qb-qm-v1-sigil{
+      width:40px;height:46px;flex:0 0 auto;
+      display:grid;place-items:center;
+      color:#f5ce71;font-size:26px;
+      border:1px solid #a17a32;
+      clip-path:polygon(12% 0,88% 0,100% 68%,50% 100%,0 68%);
+      background:linear-gradient(#182a35,#0c151d);
+      text-shadow:0 0 14px rgba(255,200,83,.45);
+    }
+    .qb-qm-v1-title{min-width:210px}
+    .qb-qm-v1-title strong{display:block;color:#f4d68f;font-size:23px;letter-spacing:.055em}
+    .qb-qm-v1-title span{display:block;margin-top:2px;color:#cdbb94;font:12px/1.2 system-ui,sans-serif}
+    .qb-qm-v1-tabs{display:flex;gap:6px;margin-left:14px;align-self:stretch;align-items:flex-end}
+    .qb-qm-v1-tab{
+      height:38px;border:0;border-bottom:2px solid transparent;padding:0 13px;
+      background:transparent;color:#968a72;cursor:pointer;font-size:12px;font-weight:800;letter-spacing:.06em;
+    }
+    .qb-qm-v1-tab:hover,.qb-qm-v1-tab:focus-visible{color:#f4d68f;background:rgba(255,255,255,.035)}
+    .qb-qm-v1-tab.is-active{color:#f4d68f;border-bottom-color:#e4b64e}
+    .qb-qm-v1-wallet{margin-left:auto;display:flex;gap:9px;align-items:center;font-family:system-ui,sans-serif}
+    .qb-qm-v1-chip{
+      min-height:36px;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;
+      border:1px solid rgba(211,163,66,.48);border-radius:5px;
+      background:linear-gradient(180deg,rgba(31,27,17,.9),rgba(12,14,15,.95));
+      color:#f3d28a;font-weight:850;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.28);
+    }
+    .qb-qm-v1-chip .qb-qm-coin{width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:#d9a733;color:#fff3bd;border:2px solid #f6d67d;font-size:11px}
+    .qb-qm-v1-chip.qb-qm-level{padding:4px 10px;color:#e8f4ff;border-color:#416a86;background:linear-gradient(#17334a,#0c1722)}
+    .qb-qm-v1-body{min-height:0;display:grid;grid-template-columns:minmax(300px,31%) minmax(430px,1fr) minmax(238px,18%)}
+    .qb-qm-v1-shop{
+      min-width:0;min-height:0;padding:15px 15px 12px 16px;
+      border-right:1px solid rgba(225,184,91,.26);
+      background:linear-gradient(90deg,rgba(9,16,21,.98),rgba(10,15,18,.92));
+      overflow:hidden;display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;
+    }
+    .qb-qm-v1-categories{display:flex;flex-direction:column;gap:8px;padding-top:33px}
+    .qb-qm-v1-cat{
+      width:44px;height:44px;border:1px solid rgba(190,153,76,.3);border-radius:5px;
+      display:grid;place-items:center;background:rgba(13,20,24,.78);color:#8c826d;font-size:18px;cursor:pointer;
+    }
+    .qb-qm-v1-cat:hover,.qb-qm-v1-cat:focus-visible{color:#f3ce77;border-color:#c69236;background:#162631}
+    .qb-qm-v1-cat.is-active{color:#f6d783;border-color:#dda944;background:linear-gradient(135deg,#243c4a,#111a20);box-shadow:0 0 14px rgba(226,177,65,.13)}
+    .qb-qm-v1-catalog{min-width:0;min-height:0;display:flex;flex-direction:column}
+    .qb-qm-v1-section-title{display:flex;align-items:center;gap:9px;color:#e8bd5a;font-size:14px;font-weight:800;letter-spacing:.065em;margin:1px 0 11px}
+    .qb-qm-v1-section-title::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,rgba(214,167,70,.55),transparent)}
+    .qb-qm-v1-items{min-height:0;overflow:auto;padding:1px 4px 10px 1px;display:grid;grid-template-columns:repeat(2,minmax(112px,1fr));gap:10px;align-content:start;scrollbar-color:#755925 #111820}
+    .qb-qm-v1-card{
+      position:relative;min-width:0;min-height:166px;padding:7px;border:1px solid #66512e;border-radius:4px;
+      color:#eadab8;background:linear-gradient(145deg,rgba(25,31,32,.97),rgba(10,14,18,.98));cursor:pointer;text-align:left;
+      box-shadow:0 5px 15px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.025) inset;
+      transition:transform .16s ease,border-color .16s ease,filter .16s ease;
+    }
+    .qb-qm-v1-card:hover,.qb-qm-v1-card:focus-visible{transform:translateY(-2px);border-color:#d0a34c;filter:brightness(1.08)}
+    .qb-qm-v1-card.is-selected{border-color:#f0c463;box-shadow:0 0 0 2px rgba(240,196,99,.19),0 9px 25px rgba(0,0,0,.5)}
+    .qb-qm-v1-card.is-equipped::after{content:"EQUIPPED";position:absolute;right:7px;top:7px;padding:3px 5px;border-radius:3px;background:#174c3d;color:#c8ffe6;font:800 8px/1 system-ui,sans-serif;letter-spacing:.08em}
+    .qb-qm-v1-card.is-owned:not(.is-equipped)::after{content:"OWNED";position:absolute;right:7px;top:7px;padding:3px 5px;border-radius:3px;background:#263d56;color:#d8edff;font:800 8px/1 system-ui,sans-serif;letter-spacing:.08em}
+    .qb-qm-v1-thumb{height:112px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(211,168,74,.32);background:radial-gradient(circle at 50% 34%,#394b4d,#141c20 68%);position:relative}
+    .qb-qm-v1-card[data-rarity="RARE"] .qb-qm-v1-thumb{background:radial-gradient(circle at 50% 35%,#3b315b,#171525 70%)}
+    .qb-qm-v1-thumb img{width:92%;height:92%;object-fit:contain;filter:drop-shadow(0 7px 8px rgba(0,0,0,.58))}
+    .qb-qm-v1-thumb img.qb-qm-v1-thumb-hero{height:150%;transform:translateY(18%)}
+    .qb-qm-v1-card-name{display:block;margin:7px 1px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+    .qb-qm-v1-card-meta{display:flex;justify-content:space-between;gap:6px;align-items:center;color:#ab9d81;font:10px/1.2 system-ui,sans-serif;text-transform:uppercase}
+    .qb-qm-v1-price{color:#eac768;font-weight:850;white-space:nowrap}
+    .qb-qm-v1-empty{grid-column:1/-1;padding:24px 12px;border:1px dashed #5a4b32;color:#ad9e82;text-align:center;font:13px/1.5 system-ui,sans-serif}
+    .qb-qm-v1-stage{
+      min-width:0;min-height:0;position:relative;overflow:hidden;
+      background-color:#15120e;background-position:center;background-size:cover;
+    }
+    .qb-qm-v1-stage::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,7,10,.25),transparent 25%,transparent 73%,rgba(3,7,9,.27)),linear-gradient(0deg,rgba(2,5,6,.35),transparent 25%);pointer-events:none;z-index:1}
+    .qb-qm-v1-stage::after{content:"";position:absolute;left:24%;right:23%;bottom:4%;height:13%;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.72),transparent 68%);filter:blur(4px);pointer-events:none;z-index:2}
+    .qb-qm-v1-scene-layer{position:absolute;pointer-events:none;user-select:none;-webkit-user-drag:none;object-fit:contain;filter:drop-shadow(0 14px 13px rgba(0,0,0,.44))}
+    .qb-qm-v1-cape{z-index:3;height:79%;width:44%;left:36%;bottom:5%;object-fit:contain;opacity:.96;transform:translateX(-50%) scaleX(.82)}
+    .qb-qm-v1-hero{z-index:4;height:92%;width:auto;left:50%;bottom:2%;transform:translateX(-50%)}
+    .qb-qm-v1-hat{z-index:7;width:20%;height:auto;left:50%;top:1%;transform:translateX(-50%) rotate(-2deg);filter:drop-shadow(0 8px 6px rgba(0,0,0,.45))}
+    .qb-qm-v1-weapon{z-index:6;width:23%;height:auto;left:42%;top:25%;transform:rotate(2deg);transform-origin:10% 90%}
+    .qb-qm-v1-familiar{z-index:6;width:23%;height:37%;right:10%;bottom:5%;object-fit:contain;object-position:center bottom;animation:qbQmFamiliarIdle 3.8s ease-in-out infinite}
+    @keyframes qbQmFamiliarIdle{50%{transform:translateY(-5px) rotate(.4deg)}}
+    body.a11y-reduced-motion .qb-qm-v1-familiar{animation:none}
+    .qb-qm-v1-avatar-fallback{position:absolute;z-index:4;left:50%;bottom:7%;width:48%;height:80%;transform:translateX(-50%);display:grid;place-items:center}
+    .qb-qm-v1-preview-flag{position:absolute;z-index:9;left:17px;top:16px;max-width:56%;padding:8px 10px;border:1px solid rgba(235,191,93,.55);border-radius:4px;background:rgba(8,13,16,.8);box-shadow:0 5px 18px rgba(0,0,0,.35);backdrop-filter:blur(5px)}
+    .qb-qm-v1-preview-flag strong{display:block;color:#f0ca72;font-size:11px;letter-spacing:.09em;text-transform:uppercase}
+    .qb-qm-v1-preview-flag span{display:block;margin-top:3px;color:#d2c3a5;font:11px/1.35 system-ui,sans-serif}
+    .qb-qm-v1-detail{
+      position:absolute;z-index:9;left:17px;right:17px;bottom:14px;display:flex;gap:12px;align-items:center;
+      padding:10px 12px;border:1px solid rgba(222,177,79,.42);border-radius:5px;
+      background:linear-gradient(90deg,rgba(7,12,15,.92),rgba(10,16,19,.74));box-shadow:0 8px 24px rgba(0,0,0,.35);backdrop-filter:blur(7px);
+    }
+    .qb-qm-v1-detail-copy{min-width:0;flex:1}
+    .qb-qm-v1-detail-copy strong{display:block;color:#f3d28b;font-size:14px}
+    .qb-qm-v1-detail-copy span{display:block;margin-top:2px;color:#a99d88;font:11px/1.35 system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .qb-qm-v1-detail button{border:1px solid #d2a54d;border-radius:4px;padding:9px 13px;background:linear-gradient(#234866,#11283a);color:#fff0c8;font-weight:850;font-size:12px;cursor:pointer;white-space:nowrap}
+    .qb-qm-v1-detail button:hover,.qb-qm-v1-detail button:focus-visible{filter:brightness(1.16)}
+    .qb-qm-v1-detail button:disabled{opacity:.54;cursor:default;filter:none}
+    .qb-qm-v1-side{
+      min-width:0;min-height:0;padding:16px 14px 12px;
+      border-left:1px solid rgba(225,184,91,.28);overflow:auto;
+      background:linear-gradient(90deg,rgba(9,13,16,.93),rgba(7,10,12,.99));
+    }
+    .qb-qm-v1-side h3{margin:0 0 11px;color:#d9ae54;font-size:14px;letter-spacing:.075em;font-weight:800}
+    .qb-qm-v1-slot-list{display:grid;gap:7px}
+    .qb-qm-v1-slot{
+      min-height:60px;display:grid;grid-template-columns:51px minmax(0,1fr);gap:9px;align-items:center;padding:6px;
+      border:1px solid rgba(160,124,54,.37);border-radius:4px;background:rgba(15,20,22,.76)
+    }
+    .qb-qm-v1-slot-art{width:51px;height:48px;display:grid;place-items:center;border:1px solid rgba(207,164,68,.31);background:radial-gradient(circle,#2b3638,#11181b);overflow:hidden;color:#867961;font-size:18px}
+    .qb-qm-v1-slot-art img{width:92%;height:92%;object-fit:contain;filter:drop-shadow(0 4px 4px rgba(0,0,0,.55))}
+    .qb-qm-v1-slot-copy{min-width:0}
+    .qb-qm-v1-slot-copy small{display:block;color:#8f856f;font:800 8px/1.1 system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+    .qb-qm-v1-slot-copy strong{display:block;margin-top:4px;color:#e5d4af;font:700 11px/1.25 system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .qb-qm-v1-progression{margin-top:18px;padding-top:15px;border-top:1px solid rgba(206,162,67,.26)}
+    .qb-qm-v1-level-row{display:grid;grid-template-columns:50px 1fr;gap:10px;align-items:center}
+    .qb-qm-v1-level-shield{height:55px;display:grid;place-items:center;color:#f5d173;font-size:21px;font-weight:900;border:2px solid #b58732;clip-path:polygon(10% 0,90% 0,100% 70%,50% 100%,0 70%);background:linear-gradient(#183143,#0c151d)}
+    .qb-qm-v1-level-copy strong{display:block;color:#ead8b0;font-size:12px}
+    .qb-qm-v1-level-copy span{display:block;margin-top:3px;color:#a89c86;font:10px/1.2 system-ui,sans-serif}
+    .qb-qm-v1-xpbar{height:7px;margin-top:7px;border:1px solid #62532f;border-radius:999px;background:#13181a;overflow:hidden}
+    .qb-qm-v1-xpbar i{display:block;height:100%;background:linear-gradient(90deg,#2b88c4,#66d4ff);box-shadow:0 0 10px rgba(68,190,255,.5)}
+    .qb-qm-v1-note{margin-top:13px;padding:9px;border:1px solid rgba(84,126,150,.28);border-radius:4px;background:rgba(18,37,49,.45);color:#a8bdc8;font:10px/1.45 system-ui,sans-serif}
+    .qb-qm-v1-footer{display:flex;align-items:center;gap:10px;padding:9px 17px;border-top:1px solid rgba(225,184,91,.34);background:linear-gradient(#101820,#080c10);z-index:6}
+    .qb-qm-v1-footer-note{color:#958a75;font:10px/1.3 system-ui,sans-serif;max-width:520px}
+    .qb-qm-v1-footer-spacer{flex:1}
+    .qb-qm-v1-footer-btn{height:40px;border:1px solid #655533;border-radius:4px;padding:0 15px;background:#172027;color:#d6c7a7;cursor:pointer;font-weight:800;font-size:12px;letter-spacing:.035em}
+    .qb-qm-v1-footer-btn:hover,.qb-qm-v1-footer-btn:focus-visible{border-color:#c39743;color:#ffe5aa}
+    .qb-qm-v1-footer-btn.is-primary{min-width:166px;border-color:#c6973d;background:linear-gradient(#24506c,#102a3d);color:#ffe9b7;box-shadow:0 0 0 1px rgba(255,220,139,.13) inset}
+    @media(max-width:1100px){
+      .qb-qm-v1-body{grid-template-columns:minmax(270px,36%) 1fr}
+      .qb-qm-v1-side{display:none}
+      .qb-qm-v1-tabs{display:none}
+      .qb-qm-v1-title{min-width:0}
+    }
+    @media(max-width:760px){
+      .qb-avatar-dialog.qb-qm-v1-dialog{width:100vw;height:100vh;max-width:100vw;max-height:100vh;border:0;border-radius:0}
+      .qb-qm-v1{grid-template-rows:62px minmax(0,1fr) 58px}
+      .qb-qm-v1-top{padding:8px 10px}.qb-qm-v1-sigil{display:none}.qb-qm-v1-title strong{font-size:18px}.qb-qm-v1-title span{display:none}
+      .qb-qm-v1-chip.qb-qm-level{display:none}.qb-qm-v1-chip{padding:5px 8px}
+      .qb-qm-v1-body{display:flex;flex-direction:column}
+      .qb-qm-v1-stage{order:1;flex:0 0 55%;min-height:310px}
+      .qb-qm-v1-shop{order:2;flex:1 1 auto;border-right:0;border-top:1px solid rgba(225,184,91,.26);grid-template-columns:42px 1fr;padding:9px;gap:8px}
+      .qb-qm-v1-categories{padding-top:28px;gap:5px}.qb-qm-v1-cat{width:38px;height:38px}
+      .qb-qm-v1-items{grid-template-columns:repeat(3,minmax(92px,1fr));display:flex;overflow-x:auto;overflow-y:hidden}.qb-qm-v1-card{min-width:118px;min-height:140px}.qb-qm-v1-thumb{height:88px}
+      .qb-qm-v1-preview-flag{max-width:70%}.qb-qm-v1-detail{padding:7px 9px}.qb-qm-v1-detail-copy span{display:none}
+      .qb-qm-v1-footer-note{display:none}.qb-qm-v1-footer-btn{padding:0 10px}.qb-qm-v1-footer-btn.is-primary{min-width:132px}
+    }
+</style>
+</head>
+<body>
+<dialog id="questboundAvatarDialog" class="qb-avatar-dialog"></dialog>
+<script>
+var DATA={student:{firstName:"Avery"},progression:{level:7,xpIntoLevel:860,xpPerLevel:1400,className:"Apprentice Ranger"}};
+var QUESTBOUND_AVATAR_STATE={
+  ok:true,
+  goldBalance:2840,
+  profile:{family:"HUMAN",bodyRig:"STANDARD",baseTone:"HUMAN_P05"},
+  equipped:{
+    outfitId:"AV_UNIVERSAL_OUTFIT_RANGER_001",
+    headgearId:"",
+    backItemId:"",
+    heldItemId:"",
+    familiarId:""
+  },
+  shop:[
+    {assetId:"AV_UNIVERSAL_OUTFIT_RANGER_001",displayName:"Ranger Outfit",category:"OUTFIT",rarity:"UNCOMMON",goldPrice:100,owned:true,compatible:true},
+    {assetId:"AV_UNIVERSAL_HEADGEAR_WIZARD_001",displayName:"Apprentice Wizard Hat",category:"HEADGEAR",rarity:"RARE",goldPrice:75,owned:false,compatible:true},
+    {assetId:"AV_UNIVERSAL_BACK_CAPE_001",displayName:"Guild Cape",category:"BACK_ITEM",rarity:"UNCOMMON",goldPrice:75,owned:false,compatible:true},
+    {assetId:"AV_UNIVERSAL_HELD_TRAVELER_BLADE_001",displayName:"Traveler Blade",category:"HELD_ITEM",rarity:"COMMON",goldPrice:100,owned:false,compatible:true},
+    {assetId:"AV_UNIVERSAL_FAMILIAR_FOX_001",displayName:"Fox Familiar",category:"FAMILIAR",rarity:"RARE",goldPrice:250,owned:false,compatible:true}
+  ],
+  inventory:[
+    {assetId:"AV_UNIVERSAL_OUTFIT_RANGER_001",displayName:"Ranger Outfit",category:"OUTFIT",equipped:true}
+  ]
+};
+function escapeHtml(value){return String(value == null ? "" : value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function questboundAvatarCategoryLabel_(value){return String(value || "Cosmetics").replace(/_/g," ").toLowerCase().replace(/w/g,function(c){return c.toUpperCase();});}
+function renderQuestboundAvatarPreview_(){return '<div style="width:180px;height:330px;border:1px solid #b89249;background:#1b272b;color:#f2d896;display:grid;place-items:center;text-align:center">Existing safe<br>avatar fallback</div>';}
+function openGuildCommonsMirror_(){window.__QB_TEST_LAST_ACTION="character";}
+function purchaseQuestboundShopAsset_(assetId){
+  var item=QUESTBOUND_AVATAR_STATE.shop.find(function(entry){return entry.assetId===assetId;});
+  if(!item || item.owned || QUESTBOUND_AVATAR_STATE.goldBalance < item.goldPrice) return;
+  QUESTBOUND_AVATAR_STATE.goldBalance-=item.goldPrice;item.owned=true;
+  window.__QB_TEST_LAST_ACTION="purchased:"+assetId;openGuildCommonsShop_("COSMETICS");
+}
+function equipQuestboundShopAsset_(assetId){
+  var item=QUESTBOUND_AVATAR_STATE.shop.find(function(entry){return entry.assetId===assetId;});
+  if(!item || !item.owned) return;
+  var field=questboundQmV1EquippedField_(item.category);QUESTBOUND_AVATAR_STATE.equipped[field]=assetId;
+  window.__QB_TEST_LAST_ACTION="equipped:"+assetId;openGuildCommonsShop_("COSMETICS");
+}
+    var QUESTBOUND_QM_V1_RUNTIME =
+      "https://raw.githubusercontent.com/ybocke/questbound-runtime-assets/872eef3e19aadd8437298c045822f1082278fd26/proof-of-beauty-v1/runtime/";
+    var QUESTBOUND_QM_V1_PREVIEW_ID = "";
+    var QUESTBOUND_QM_V1_CATEGORY = "ALL";
+
+    function questboundQmV1AssetPresentation_(assetId) {
+      var base = QUESTBOUND_QM_V1_RUNTIME;
+      var assets = {
+        AV_UNIVERSAL_OUTFIT_RANGER_001:{
+          art:base+"characters/presentation/qb-ranger-hero-v1.webp",
+          kind:"hero"
+        },
+        AV_UNIVERSAL_HEADGEAR_WIZARD_001:{
+          art:base+"ui/qb-apprentice-wizard-hat-v1.webp",
+          kind:"headgear"
+        },
+        AV_UNIVERSAL_BACK_CAPE_001:{
+          art:base+"ui/qb-guild-cape-v1.webp",
+          kind:"back"
+        },
+        AV_UNIVERSAL_FAMILIAR_FOX_001:{
+          art:base+"creatures/presentation/qb-fox-familiar-art-v1.webp",
+          kind:"familiar"
+        },
+        AV_UNIVERSAL_HELD_TRAVELER_BLADE_001:{
+          art:base+"ui/qb-traveler-blade-v1.webp",
+          kind:"held"
+        }
+      };
+      return assets[String(assetId || "").toUpperCase()] || null;
+    }
+
+    function questboundQmV1EquippedField_(category) {
+      return {
+        OUTFIT:"outfitId",
+        HEADGEAR:"headgearId",
+        BACK_ITEM:"backItemId",
+        FAMILIAR:"familiarId",
+        HELD_ITEM:"heldItemId",
+        FACE_ACCESSORY:"faceAccessoryId",
+        EFFECT:"effectId"
+      }[String(category || "").toUpperCase()] || "";
+    }
+
+    function questboundQmV1EquippedId_(state, category) {
+      var field = questboundQmV1EquippedField_(category);
+      return field && state && state.equipped
+        ? String(state.equipped[field] || "")
+        : "";
+    }
+
+    function questboundQmV1ItemEquipped_(state, item) {
+      return !!(
+        item &&
+        String(questboundQmV1EquippedId_(state,item.category)) ===
+          String(item.assetId || "")
+      );
+    }
+
+    function questboundQmV1AllAssets_(state) {
+      var lists = [
+        state && Array.isArray(state.shop) ? state.shop : [],
+        state && Array.isArray(state.inventory) ? state.inventory : []
+      ];
+      var byId = {};
+      lists.forEach(function(list) {
+        list.forEach(function(item) {
+          if (item && item.assetId) {
+            byId[String(item.assetId)] = Object.assign(
+              {},
+              byId[String(item.assetId)] || {},
+              item
+            );
+          }
+        });
+      });
+      return byId;
+    }
+
+    function questboundQmV1AssetName_(state, assetId) {
+      if (!assetId) {
+        return "Empty";
+      }
+      var item = questboundQmV1AllAssets_(state)[String(assetId)];
+      if (item && item.displayName) {
+        return String(item.displayName);
+      }
+      return String(assetId)
+        .replace(/^AV_[A-Z]+_/,"")
+        .replace(/_\d+$/,"")
+        .replace(/_/g," ")
+        .toLowerCase()
+        .replace(/\b\w/g,function(letter){return letter.toUpperCase();});
+    }
+
+    function questboundQmV1FallbackIcon_(category) {
+      return {
+        OUTFIT:"🛡️",
+        HEADGEAR:"🎩",
+        BACK_ITEM:"◆",
+        FAMILIAR:"🐾",
+        HELD_ITEM:"⚔️",
+        FACE_ACCESSORY:"◉",
+        EFFECT:"✦"
+      }[String(category || "").toUpperCase()] || "✦";
+    }
+
+    function questboundQmV1ArtHtml_(state, assetId, category, extraClass) {
+      var presentation = questboundQmV1AssetPresentation_(assetId);
+      var all = questboundQmV1AllAssets_(state);
+      var item = all[String(assetId || "")] || {};
+      var url = presentation && presentation.art
+        ? presentation.art
+        : String(item.thumbnailUrl || "");
+      if (url) {
+        return (
+          '<img class="'+escapeHtml(extraClass || "")+'" src="'+
+          escapeHtml(url)+
+          '" alt="" onerror="this.style.display=\'none\'">'
+        );
+      }
+      return '<span aria-hidden="true">'+
+        questboundQmV1FallbackIcon_(category)+
+        '</span>';
+    }
+
+    function questboundQmV1Select_(assetId) {
+      QUESTBOUND_QM_V1_PREVIEW_ID = String(assetId || "");
+      openGuildCommonsShop_("COSMETICS");
+    }
+
+    function questboundQmV1UseEquippedLook_() {
+      QUESTBOUND_QM_V1_PREVIEW_ID = "__CURRENT__";
+      openGuildCommonsShop_("COSMETICS");
+    }
+
+    function questboundQmV1SetCategory_(category) {
+      QUESTBOUND_QM_V1_CATEGORY = String(category || "ALL").toUpperCase();
+      openGuildCommonsShop_("COSMETICS");
+    }
+
+    function questboundQmV1PrimaryAction_() {
+      var state = QUESTBOUND_AVATAR_STATE || {};
+      var shop = Array.isArray(state.shop) ? state.shop : [];
+      var selected = shop.find(function(item) {
+        return String(item.assetId || "") === String(QUESTBOUND_QM_V1_PREVIEW_ID || "");
+      });
+      if (!selected || selected.compatible === false) {
+        return;
+      }
+      if (!selected.owned) {
+        purchaseQuestboundShopAsset_(selected.assetId);
+        return;
+      }
+      if (!questboundQmV1ItemEquipped_(state,selected)) {
+        equipQuestboundShopAsset_(selected.assetId);
+      }
+    }
+
+    function questboundQmV1RenderCard_(state, item, selected) {
+      var presentation = questboundQmV1AssetPresentation_(item.assetId);
+      var equipped = questboundQmV1ItemEquipped_(state,item);
+      var classes = ["qb-qm-v1-card"];
+      if (selected && String(selected.assetId) === String(item.assetId)) {
+        classes.push("is-selected");
+      }
+      if (equipped) {
+        classes.push("is-equipped");
+      }
+      else if (item.owned) {
+        classes.push("is-owned");
+      }
+      var artClass = presentation && presentation.kind === "hero"
+        ? "qb-qm-v1-thumb-hero"
+        : "";
+      return (
+        '<button type="button" class="'+classes.join(" ")+'" '+
+          'data-rarity="'+escapeHtml(String(item.rarity || "COMMON").toUpperCase())+'" '+
+          'aria-pressed="'+(selected && String(selected.assetId) === String(item.assetId) ? "true" : "false")+'" '+
+          'onclick="questboundQmV1Select_(\''+escapeHtml(String(item.assetId || ""))+'\')">'+
+          '<span class="qb-qm-v1-thumb">'+
+            questboundQmV1ArtHtml_(state,item.assetId,item.category,artClass)+
+          '</span>'+
+          '<strong class="qb-qm-v1-card-name">'+escapeHtml(item.displayName || "Cosmetic")+'</strong>'+
+          '<span class="qb-qm-v1-card-meta">'+
+            '<span>'+escapeHtml(String(item.rarity || "COMMON"))+'</span>'+
+            '<span class="qb-qm-v1-price">◉ '+Number(item.goldPrice || 0)+'</span>'+
+          '</span>'+
+        '</button>'
+      );
+    }
+
+    function questboundQmV1RenderSlot_(state, category, label) {
+      var id = questboundQmV1EquippedId_(state,category);
+      return (
+        '<div class="qb-qm-v1-slot">'+
+          '<div class="qb-qm-v1-slot-art">'+
+            questboundQmV1ArtHtml_(state,id,category,"")+
+          '</div>'+
+          '<div class="qb-qm-v1-slot-copy">'+
+            '<small>'+escapeHtml(label)+'</small>'+
+            '<strong title="'+escapeHtml(questboundQmV1AssetName_(state,id))+'">'+
+              escapeHtml(questboundQmV1AssetName_(state,id))+
+            '</strong>'+
+          '</div>'+
+        '</div>'
+      );
+    }
+
+    function openQuestboundQuartermasterV1_(dialog, state, shop) {
+      var categories = [
+        ["ALL","✦","All cosmetics"],
+        ["OUTFIT","🛡","Outfits"],
+        ["HEADGEAR","♜","Headgear"],
+        ["BACK_ITEM","◆","Back items"],
+        ["HELD_ITEM","⚔","Held items"],
+        ["FAMILIAR","🐾","Familiars"]
+      ];
+      var order = {
+        OUTFIT:1,HEADGEAR:2,BACK_ITEM:3,HELD_ITEM:4,FAMILIAR:5,
+        FACE_ACCESSORY:6,EFFECT:7
+      };
+      shop = shop.slice().sort(function(a,b) {
+        return (order[String(a.category || "").toUpperCase()] || 99) -
+          (order[String(b.category || "").toUpperCase()] || 99);
+      });
+
+      if (!QUESTBOUND_QM_V1_PREVIEW_ID) {
+        var ranger = shop.find(function(item) {
+          return String(item.assetId) === "AV_UNIVERSAL_OUTFIT_RANGER_001";
+        });
+        QUESTBOUND_QM_V1_PREVIEW_ID = ranger
+          ? String(ranger.assetId)
+          : (shop[0] ? String(shop[0].assetId) : "__CURRENT__");
+      }
+
+      var selected = QUESTBOUND_QM_V1_PREVIEW_ID === "__CURRENT__"
+        ? null
+        : shop.find(function(item) {
+            return String(item.assetId || "") === String(QUESTBOUND_QM_V1_PREVIEW_ID || "");
+          }) || null;
+      var filtered = QUESTBOUND_QM_V1_CATEGORY === "ALL"
+        ? shop
+        : shop.filter(function(item) {
+            return String(item.category || "").toUpperCase() === QUESTBOUND_QM_V1_CATEGORY;
+          });
+      var equipped = state.equipped || {};
+      var actualRanger = String(equipped.outfitId || "") === "AV_UNIVERSAL_OUTFIT_RANGER_001";
+      var showcase = !!selected;
+      var showHero = showcase || actualRanger;
+      var showCape =
+        String(equipped.backItemId || "") === "AV_UNIVERSAL_BACK_CAPE_001" ||
+        !!(selected && String(selected.assetId) === "AV_UNIVERSAL_BACK_CAPE_001");
+      var showHat =
+        String(equipped.headgearId || "") === "AV_UNIVERSAL_HEADGEAR_WIZARD_001" ||
+        !!(selected && String(selected.assetId) === "AV_UNIVERSAL_HEADGEAR_WIZARD_001");
+      var showWeapon =
+        String(equipped.heldItemId || "") === "AV_UNIVERSAL_HELD_TRAVELER_BLADE_001" ||
+        !!(selected && String(selected.assetId) === "AV_UNIVERSAL_HELD_TRAVELER_BLADE_001");
+      var showFox = showcase ||
+        String(equipped.familiarId || "") === "AV_UNIVERSAL_FAMILIAR_FOX_001";
+      var progression = DATA && DATA.progression ? DATA.progression : {};
+      var level = Number(progression.level || 1);
+      var xpInto = Number(progression.xpIntoLevel || progression.levelXp || 0);
+      var xpNeed = Math.max(1,Number(progression.xpPerLevel || progression.xpNeeded || 100));
+      var xpPct = progression.levelProgress != null
+        ? Math.max(0,Math.min(100,Number(progression.levelProgress) * (Number(progression.levelProgress) <= 1 ? 100 : 1)))
+        : Math.max(0,Math.min(100,(xpInto / xpNeed) * 100));
+      var className = String(progression.className || progression.guildClass || "Guild Adventurer");
+      var studentName = DATA && DATA.student
+        ? String(DATA.student.firstName || DATA.student.name || "Adventurer")
+        : "Adventurer";
+
+      var categoryHtml = categories.map(function(item) {
+        var active = QUESTBOUND_QM_V1_CATEGORY === item[0];
+        return (
+          '<button type="button" class="qb-qm-v1-cat '+(active ? "is-active" : "")+'" '+
+            'aria-label="'+escapeHtml(item[2])+'" title="'+escapeHtml(item[2])+'" '+
+            'onclick="questboundQmV1SetCategory_(\''+item[0]+'\')">'+item[1]+'</button>'
+        );
+      }).join("");
+      var cardsHtml = filtered.length
+        ? filtered.map(function(item) {
+            return questboundQmV1RenderCard_(state,item,selected);
+          }).join("")
+        : '<div class="qb-qm-v1-empty">No cosmetics are on this shelf yet.</div>';
+
+      var sceneHtml = '';
+      if (showHero) {
+        if (showCape) {
+          sceneHtml += '<img class="qb-qm-v1-scene-layer qb-qm-v1-cape" src="'+
+            escapeHtml(QUESTBOUND_QM_V1_RUNTIME+'ui/qb-guild-cape-v1.webp')+'" alt="">';
+        }
+        sceneHtml += '<img class="qb-qm-v1-scene-layer qb-qm-v1-hero" src="'+
+          escapeHtml(QUESTBOUND_QM_V1_RUNTIME+'characters/presentation/qb-ranger-hero-v1.webp')+
+          '" alt="'+escapeHtml(studentName)+' wearing the Ranger Outfit">';
+        if (showHat) {
+          sceneHtml += '<img class="qb-qm-v1-scene-layer qb-qm-v1-hat" src="'+
+            escapeHtml(QUESTBOUND_QM_V1_RUNTIME+'ui/qb-apprentice-wizard-hat-v1.webp')+'" alt="">';
+        }
+        if (showWeapon) {
+          sceneHtml += '<img class="qb-qm-v1-scene-layer qb-qm-v1-weapon" src="'+
+            escapeHtml(QUESTBOUND_QM_V1_RUNTIME+'ui/qb-traveler-blade-v1.webp')+'" alt="">';
+        }
+      }
+      else {
+        sceneHtml += '<div class="qb-qm-v1-avatar-fallback">'+
+          renderQuestboundAvatarPreview_(state,true)+
+        '</div>';
+      }
+      if (showFox) {
+        sceneHtml += '<img class="qb-qm-v1-scene-layer qb-qm-v1-familiar" src="'+
+          escapeHtml(QUESTBOUND_QM_V1_RUNTIME+'creatures/presentation/qb-fox-familiar-art-v1.webp')+
+          '" alt="Fox Familiar">';
+      }
+
+      var selectedEquipped = selected ? questboundQmV1ItemEquipped_(state,selected) : true;
+      var primaryLabel = !selected
+        ? "EQUIPPED LOOK"
+        : (
+            selected.compatible === false
+              ? "NOT COMPATIBLE"
+              : (
+                  !selected.owned
+                    ? "BUY • ◉ "+Number(selected.goldPrice || 0)
+                    : (selectedEquipped ? "LOOK SAVED ✓" : "EQUIP & SAVE")
+                )
+          );
+      var primaryDisabled = !selected || selected.compatible === false || selectedEquipped;
+      var detailTitle = selected
+        ? String(selected.displayName || "Cosmetic Preview")
+        : "Your Equipped Look";
+      var detailText = selected
+        ? "Preview only until you confirm. Ownership and equipped state are shown separately."
+        : "This scene reflects the equipment currently saved to your QuestBound avatar.";
+      var previewTitle = selected ? "Preview Scene" : "Authoritative Look";
+      var previewText = selected
+        ? "Ranger showcase with the selected item. Nothing changes until you buy or equip."
+        : "Showing the equipment QuestBound currently has saved for you.";
+
+      dialog.classList.add("qb-qm-v1-dialog");
+      dialog.innerHTML =
+        '<div class="qb-qm-v1">'+
+          '<header class="qb-qm-v1-top">'+
+            '<div class="qb-qm-v1-sigil" aria-hidden="true">✦</div>'+
+            '<div class="qb-qm-v1-title"><strong>QUARTERMASTER</strong><span>Gear up for your next lesson.</span></div>'+
+            '<nav class="qb-qm-v1-tabs" aria-label="Quartermaster sections">'+
+              '<button class="qb-qm-v1-tab is-active" type="button">COSMETICS</button>'+
+              '<button class="qb-qm-v1-tab" type="button" onclick="openGuildCommonsShop_(\'CHARACTER\')">CHARACTER</button>'+
+              '<button class="qb-qm-v1-tab" type="button" onclick="openGuildCommonsShop_(\'REAL_REWARDS\')">REAL-LIFE REWARDS</button>'+
+            '</nav>'+
+            '<div class="qb-qm-v1-wallet">'+
+              '<div class="qb-qm-v1-chip"><span class="qb-qm-coin">◉</span>'+Number(state.goldBalance || 0)+' Gold</div>'+
+              '<div class="qb-qm-v1-chip qb-qm-level">LEVEL '+level+'</div>'+
+            '</div>'+
+          '</header>'+
+          '<main class="qb-qm-v1-body">'+
+            '<section class="qb-qm-v1-shop" aria-label="Cosmetic shop">'+
+              '<nav class="qb-qm-v1-categories" aria-label="Cosmetic categories">'+categoryHtml+'</nav>'+
+              '<div class="qb-qm-v1-catalog">'+
+                '<div class="qb-qm-v1-section-title">'+escapeHtml(QUESTBOUND_QM_V1_CATEGORY === "ALL" ? "GEAR & COMPANIONS" : questboundAvatarCategoryLabel_(QUESTBOUND_QM_V1_CATEGORY))+'</div>'+
+                '<div class="qb-qm-v1-items">'+cardsHtml+'</div>'+
+              '</div>'+
+            '</section>'+
+            '<section class="qb-qm-v1-stage" aria-label="Character preview" style="background-image:url(&quot;'+
+              escapeHtml(QUESTBOUND_QM_V1_RUNTIME+'environments/qb-quartermaster-chamber-v1.webp')+
+              '&quot;)">'+
+              sceneHtml+
+              '<div class="qb-qm-v1-preview-flag"><strong>'+escapeHtml(previewTitle)+'</strong><span>'+escapeHtml(previewText)+'</span></div>'+
+              '<div class="qb-qm-v1-detail">'+
+                '<div class="qb-qm-v1-detail-copy"><strong>'+escapeHtml(detailTitle)+'</strong><span>'+escapeHtml(detailText)+'</span></div>'+
+                '<button type="button" '+(primaryDisabled ? 'disabled ' : '')+'onclick="questboundQmV1PrimaryAction_()">'+escapeHtml(primaryLabel)+'</button>'+
+              '</div>'+
+            '</section>'+
+            '<aside class="qb-qm-v1-side" aria-label="Equipped gear and progression">'+
+              '<h3>EQUIPPED</h3>'+
+              '<div class="qb-qm-v1-slot-list">'+
+                questboundQmV1RenderSlot_(state,"HEADGEAR","Headgear")+
+                questboundQmV1RenderSlot_(state,"OUTFIT","Outfit")+
+                questboundQmV1RenderSlot_(state,"BACK_ITEM","Back item")+
+                questboundQmV1RenderSlot_(state,"HELD_ITEM","Held item")+
+                questboundQmV1RenderSlot_(state,"FAMILIAR","Familiar")+
+              '</div>'+
+              '<div class="qb-qm-v1-progression">'+
+                '<h3>PROGRESSION</h3>'+
+                '<div class="qb-qm-v1-level-row">'+
+                  '<div class="qb-qm-v1-level-shield">'+level+'</div>'+
+                  '<div class="qb-qm-v1-level-copy"><strong>'+escapeHtml(className)+'</strong><span>'+xpInto+' / '+xpNeed+' XP</span><div class="qb-qm-v1-xpbar"><i style="width:'+xpPct+'%"></i></div></div>'+
+                '</div>'+
+                '<div class="qb-qm-v1-note">Gold changes what students can see and show. XP is displayed here, but it is never spent in the shop.</div>'+
+              '</div>'+
+            '</aside>'+
+          '</main>'+
+          '<footer class="qb-qm-v1-footer">'+
+            '<div class="qb-qm-v1-footer-note">Previewing never spends Gold. Purchases and equipment changes still use QuestBound’s authoritative server actions.</div>'+
+            '<div class="qb-qm-v1-footer-spacer"></div>'+
+            '<button class="qb-qm-v1-footer-btn" type="button" onclick="questboundQmV1UseEquippedLook_()">VIEW EQUIPPED</button>'+
+            '<button class="qb-qm-v1-footer-btn" type="button" onclick="openGuildCommonsMirror_()">CHARACTER</button>'+
+            '<button class="qb-qm-v1-footer-btn is-primary" type="button" onclick="document.getElementById(\'questboundAvatarDialog\').close()">RETURN TO GUILD</button>'+
+          '</footer>'+
+        '</div>';
+      if (!dialog.open) {
+        dialog.showModal();
+      }
+    }
+
+function openGuildCommonsShop_(tab){
+  var dialog=document.getElementById("questboundAvatarDialog");
+  if(String(tab||"COSMETICS").toUpperCase()!=="COSMETICS"){window.__QB_TEST_LAST_ACTION="tab:"+tab;return;}
+  openQuestboundQuartermasterV1_(dialog,QUESTBOUND_AVATAR_STATE,QUESTBOUND_AVATAR_STATE.shop);
+}
+openGuildCommonsShop_("COSMETICS");
+window.QB_READY=true;
+</script>
+</body>
+</html>

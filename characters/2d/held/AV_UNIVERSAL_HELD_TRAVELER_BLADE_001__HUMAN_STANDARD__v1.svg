@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bladeSteel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#dce2f0"/>
+      <stop offset=".48" stop-color="#8795b4"/>
+      <stop offset="1" stop-color="#eef1f7"/>
+    </linearGradient>
+    <linearGradient id="bladeGrip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8d5a55"/>
+      <stop offset="1" stop-color="#4e3037"/>
+    </linearGradient>
+  </defs>
+  <g transform="rotate(23 871 538)">
+    <path d="M850 532 L696 797 L679 851 L713 819 L893 559Z" fill="url(#bladeSteel)" stroke="#5d6880" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M875 545 L708 818" stroke="#f8f9ff" stroke-width="7" opacity=".7"/>
+    <path d="M838 505 L905 557 L892 576 L822 523Z" fill="#c7c1a8" stroke="#4b463b" stroke-width="8"/>
+    <path d="M830 500 L907 561" stroke="#eee8d4" stroke-width="7"/>
+    <path d="M817 518 L763 589 L790 610 L846 537Z" fill="url(#bladeGrip)" stroke="#3b2b2d" stroke-width="8"/>
+    <path d="M795 548 L821 568 M781 566 L807 587" stroke="#c69a70" stroke-width="6"/>
+    <path d="M756 578 L789 604 L765 632 L731 605Z" fill="#d0c9ae" stroke="#514b3e" stroke-width="8"/>
+  </g>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="rangerCloth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#667746"/>
+      <stop offset=".55" stop-color="#4f6138"/>
+      <stop offset="1" stop-color="#39492d"/>
+    </linearGradient>
+    <linearGradient id="rangerLeather" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#75533a"/>
+      <stop offset="1" stop-color="#3f3026"/>
+    </linearGradient>
+    <linearGradient id="rangerBoot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#544231"/>
+      <stop offset="1" stop-color="#29231e"/>
+    </linearGradient>
+  </defs>
+  <!-- Hood: open at the face so the shared body layer remains expressive. -->
+  <path d="M417 233 C414 135 457 90 514 88 C575 88 615 139 607 235 L571 204 C558 177 537 162 512 162 C484 162 462 178 448 207Z" fill="#3f4d2f" stroke="#263021" stroke-width="11"/>
+  <path d="M416 232 C399 267 403 320 435 352 L476 319 C449 293 445 249 452 207Z" fill="#4d5d38" stroke="#263021" stroke-width="9"/>
+  <path d="M608 232 C625 267 621 320 589 352 L548 319 C575 293 579 249 572 207Z" fill="#4d5d38" stroke="#263021" stroke-width="9"/>
+  <!-- Complete torso and sleeves; this is a required safe outfit layer. -->
+  <path d="M383 395 Q421 374 465 374 H559 Q604 374 641 395 L679 479 L650 625 L603 649 H421 L374 625 L345 479Z" fill="url(#rangerCloth)" stroke="#2a2b21" stroke-width="11"/>
+  <path d="M376 405 C323 407 273 420 220 449 L245 524 C294 506 337 502 384 510Z" fill="#53633b" stroke="#2a2b21" stroke-width="10"/>
+  <path d="M648 405 C701 407 751 420 804 449 L779 524 C730 506 687 502 640 510Z" fill="#53633b" stroke="#2a2b21" stroke-width="10"/>
+  <path d="M340 420 L409 390 L438 463 L376 493Z" fill="url(#rangerLeather)" stroke="#38291f" stroke-width="9"/>
+  <path d="M684 420 L615 390 L586 463 L648 493Z" fill="url(#rangerLeather)" stroke="#38291f" stroke-width="9"/>
+  <path d="M407 384 L461 374 L480 429 L434 464Z" fill="#7b5b3d"/>
+  <path d="M617 384 L563 374 L544 429 L590 464Z" fill="#7b5b3d"/>
+  <path d="M454 378 L481 407 H543 L570 378 L575 433 L541 455 H483 L449 433Z" fill="#273122"/>
+  <path d="M475 416 H549" stroke="#b69858" stroke-width="10" stroke-linecap="round"/>
+  <path d="M462 445 L562 445 L583 611 L441 611Z" fill="#435333" opacity=".72"/>
+  <path d="M489 449 L514 449 L514 609 L489 609Z" fill="#2e3527"/>
+  <path d="M510 449 L535 449 L535 609 L510 609Z" fill="#5b6c3f"/>
+  <path d="M469 485 H555 M464 529 H560 M458 573 H566" stroke="#b29b62" stroke-width="9" stroke-linecap="round"/>
+  <!-- Bracers bridge the sleeves to the shared hands. -->
+  <path d="M218 448 L277 431 L294 516 L240 532Z" fill="url(#rangerLeather)" stroke="#36281f" stroke-width="8"/>
+  <path d="M806 448 L747 431 L730 516 L784 532Z" fill="url(#rangerLeather)" stroke="#36281f" stroke-width="8"/>
+  <path d="M238 463 L282 451 M244 488 L288 476 M786 463 L742 451 M780 488 L736 476" stroke="#b49459" stroke-width="7"/>
+  <!-- Belt, split tunic, trousers, and boots fully cover the lower body. -->
+  <path d="M393 604 Q512 625 631 604 L637 657 Q512 681 387 657Z" fill="#4b3526" stroke="#2c241d" stroke-width="9"/>
+  <rect x="490" y="618" width="44" height="44" rx="6" fill="#b79243" transform="rotate(45 512 640)"/>
+  <rect x="500" y="628" width="24" height="24" fill="#51462f" transform="rotate(45 512 640)"/>
+  <path d="M401 654 L623 654 L650 735 L571 758 L512 727 L453 758 L374 735Z" fill="url(#rangerCloth)" stroke="#2a2b21" stroke-width="9"/>
+  <path d="M398 711 L497 724 L492 887 H414 L390 759Z" fill="#75684d" stroke="#3e3528" stroke-width="8"/>
+  <path d="M626 711 L527 724 L532 887 H610 L634 759Z" fill="#75684d" stroke="#3e3528" stroke-width="8"/>
+  <path d="M407 849 H501 L497 975 H398 L385 941Z" fill="url(#rangerBoot)" stroke="#28221c" stroke-width="9"/>
+  <path d="M523 849 H617 L639 941 L626 975 H527Z" fill="url(#rangerBoot)" stroke="#28221c" stroke-width="9"/>
+  <path d="M404 876 H497 M401 908 H496 M527 876 H620 M528 908 H625" stroke="#96774c" stroke-width="8"/>
+  <path d="M383 680 L453 758 M641 680 L571 758" stroke="#c1a062" stroke-width="7" opacity=".8"/>
+</svg>

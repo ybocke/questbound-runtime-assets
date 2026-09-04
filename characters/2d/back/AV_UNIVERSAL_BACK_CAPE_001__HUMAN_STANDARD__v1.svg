@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="guildCape" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#873942"/>
+      <stop offset=".5" stop-color="#682a36"/>
+      <stop offset="1" stop-color="#391c2a"/>
+    </linearGradient>
+    <linearGradient id="capeGold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#946326"/>
+      <stop offset=".5" stop-color="#f0ce72"/>
+      <stop offset="1" stop-color="#946326"/>
+    </linearGradient>
+  </defs>
+  <path d="M376 395 Q421 361 468 365 H556 Q603 361 648 395 L695 451 L658 836 L604 874 L512 845 L420 874 L366 836 L329 451Z" fill="url(#guildCape)" stroke="#351820" stroke-width="13"/>
+  <path d="M377 392 Q438 422 512 410 Q586 422 647 392 L674 431 Q594 470 512 451 Q430 470 350 431Z" fill="#54202c" stroke="#321720" stroke-width="10"/>
+  <path d="M357 441 L397 831 L424 850 M667 441 L627 831 L600 850" fill="none" stroke="url(#capeGold)" stroke-width="14"/>
+  <path d="M512 504 L539 548 L590 560 L556 599 L562 650 L512 631 L462 650 L468 599 L434 560 L485 548Z" fill="#e0b654" opacity=".88"/>
+  <path d="M512 526 L528 553 L559 561 L538 585 L542 616 L512 605 L482 616 L486 585 L465 561 L496 553Z" fill="#6c2b36"/>
+  <circle cx="391" cy="402" r="17" fill="#e1bc61" stroke="#5f431f" stroke-width="7"/>
+  <circle cx="633" cy="402" r="17" fill="#e1bc61" stroke="#5f431f" stroke-width="7"/>
+</svg>

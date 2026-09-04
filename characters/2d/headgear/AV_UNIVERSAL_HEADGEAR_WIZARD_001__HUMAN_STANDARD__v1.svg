@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="wizardHat" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#483b86"/>
+      <stop offset=".55" stop-color="#302861"/>
+      <stop offset="1" stop-color="#171936"/>
+    </linearGradient>
+    <linearGradient id="wizardBand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b88335"/>
+      <stop offset=".5" stop-color="#f3d47a"/>
+      <stop offset="1" stop-color="#9b6427"/>
+    </linearGradient>
+  </defs>
+  <path d="M438 181 C458 137 478 91 493 35 C514 63 539 72 576 63 C552 94 555 121 579 156 C539 154 501 163 465 190Z" fill="url(#wizardHat)" stroke="#17152e" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M467 187 C492 165 532 155 576 157 L601 211 C547 229 475 228 423 210Z" fill="#312968" stroke="#17152e" stroke-width="11"/>
+  <path d="M435 189 C484 204 551 205 590 187 L601 211 C549 232 474 232 423 210Z" fill="url(#wizardBand)"/>
+  <path d="M393 207 C452 184 577 184 641 207 C612 239 421 239 393 207Z" fill="url(#wizardHat)" stroke="#17152e" stroke-width="11"/>
+  <path d="M513 87 L520 102 L537 104 L524 116 L528 133 L513 124 L498 133 L502 116 L489 104 L506 102Z" fill="#f4d97e"/>
+  <circle cx="560" cy="176" r="8" fill="#8fdfff"/>
+  <circle cx="477" cy="177" r="6" fill="#caa8ff"/>
+</svg>

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "QUESTBOUND_2D_COSMETICS_V1",
+  "status": "DEV_CANDIDATE",
+  "canvas": {"width": 1024, "height": 1024, "mode": "FULL_CANVAS"},
+  "supportedProfiles": ["HUMAN|STANDARD"],
+  "baseUrl": "characters/2d/",
+  "assets": {
+    "AV_UNIVERSAL_OUTFIT_RANGER_001": {
+      "category": "OUTFIT",
+      "layerIndex": 100,
+      "requiredForSafeRender": true,
+      "url": "outfits/AV_UNIVERSAL_OUTFIT_RANGER_001__HUMAN_STANDARD__v1.svg",
+      "thumbnailUrl": "thumbnails/THUMB_AV_UNIVERSAL_OUTFIT_RANGER_001__v1.svg",
+      "sourceType": "QUESTBOUND_VECTOR_DERIVATIVE",
+      "sourcePack": "Modular Character Outfits - Fantasy",
+      "sourceAssets": ["Male_Ranger.gltf", "Female_Ranger.gltf", "Preview.jpg"],
+      "sourceLicense": "CC0-1.0",
+      "sourceCreator": "Quaternius"
+    },
+    "AV_UNIVERSAL_HEADGEAR_WIZARD_001": {
+      "category": "HEADGEAR",
+      "layerIndex": 250,
+      "url": "headgear/AV_UNIVERSAL_HEADGEAR_WIZARD_001__HUMAN_STANDARD__v1.svg",
+      "thumbnailUrl": "thumbnails/THUMB_AV_UNIVERSAL_HEADGEAR_WIZARD_001__v1.svg",
+      "sourceType": "QUESTBOUND_ORIGINAL_VECTOR",
+      "sourcePack": null,
+      "sourceAssets": [],
+      "sourceLicense": "QUESTBOUND_OWNED",
+      "notes": "No exact wizard-hat asset was found in the connected library; created as original QuestBound renderer art."
+    },
+    "AV_UNIVERSAL_BACK_CAPE_001": {
+      "category": "BACK_ITEM",
+      "layerIndex": 20,
+      "url": "back/AV_UNIVERSAL_BACK_CAPE_001__HUMAN_STANDARD__v1.svg",
+      "thumbnailUrl": "thumbnails/THUMB_AV_UNIVERSAL_BACK_CAPE_001__v1.svg",
+      "sourceType": "QUESTBOUND_ORIGINAL_VECTOR",
+      "sourcePack": null,
+      "sourceAssets": [],
+      "sourceLicense": "QUESTBOUND_OWNED",
+      "notes": "No exact cape asset was found in the connected library; created as original QuestBound renderer art."
+    },
+    "AV_UNIVERSAL_FAMILIAR_FOX_001": {
+      "category": "FAMILIAR",
+      "layerIndex": 270,
+      "url": "familiars/AV_UNIVERSAL_FAMILIAR_FOX_001__HUMAN_STANDARD__v1.svg",
+      "thumbnailUrl": "thumbnails/THUMB_AV_UNIVERSAL_FAMILIAR_FOX_001__v1.svg",
+      "sourceType": "QUESTBOUND_VECTOR_DERIVATIVE",
+      "sourcePack": "Ultimate Animated Animals - July 2021",
+      "sourceAssets": ["Fox.gltf", "Preview.jpg"],
+      "sourceDriveId": "1Ij1WWfkfZtfpbqhN_0e3IR-d2knArew_",
+      "sourceLicense": "CC0-1.0",
+      "sourceCreator": "Quaternius"
+    },
+    "AV_UNIVERSAL_HELD_TRAVELER_BLADE_001": {
+      "category": "HELD_ITEM",
+      "layerIndex": 260,
+      "url": "held/AV_UNIVERSAL_HELD_TRAVELER_BLADE_001__HUMAN_STANDARD__v1.svg",
+      "thumbnailUrl": "thumbnails/THUMB_AV_UNIVERSAL_HELD_TRAVELER_BLADE_001__v1.svg",
+      "sourceType": "QUESTBOUND_VECTOR_DERIVATIVE",
+      "sourcePack": "Ultimate RPG Items Pack - Aug 2019",
+      "sourceAssets": ["Sword.png"],
+      "sourceDriveId": "1gFojt29pH1jZMDbO-YJ9onVb5fxtXujx",
+      "sourceLicense": "CC0-1.0",
+      "sourceCreator": "Quaternius"
+    }
+  }
+}

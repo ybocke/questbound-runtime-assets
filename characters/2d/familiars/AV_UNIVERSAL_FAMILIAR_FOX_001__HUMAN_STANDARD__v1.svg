@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="foxFur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1a345"/>
+      <stop offset=".6" stop-color="#d86e2f"/>
+      <stop offset="1" stop-color="#9c3f25"/>
+    </linearGradient>
+    <linearGradient id="foxTail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a74427"/>
+      <stop offset=".68" stop-color="#e77f36"/>
+      <stop offset="1" stop-color="#f4eee0"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="812" cy="951" rx="158" ry="22" fill="#10121b" opacity=".22"/>
+  <path d="M832 821 C898 776 969 795 978 851 C985 897 940 929 886 918 C922 903 940 880 934 855 C927 827 891 819 853 842Z" fill="url(#foxTail)" stroke="#73311f" stroke-width="9"/>
+  <path d="M708 833 C745 786 823 780 873 817 C906 842 909 895 884 929 H717 C688 906 684 866 708 833Z" fill="url(#foxFur)" stroke="#73311f" stroke-width="10"/>
+  <path d="M732 825 C716 781 726 742 759 716 L789 753 L826 716 C852 744 860 783 844 826Z" fill="url(#foxFur)" stroke="#73311f" stroke-width="10"/>
+  <path d="M747 740 L754 692 L784 746Z" fill="#c75c2d" stroke="#73311f" stroke-width="9"/>
+  <path d="M807 746 L836 692 L842 750Z" fill="#c75c2d" stroke="#73311f" stroke-width="9"/>
+  <path d="M757 710 L759 739 L776 736Z M830 710 L824 739 L810 736Z" fill="#563029"/>
+  <path d="M752 810 C769 829 817 829 838 807 C833 843 819 858 795 861 C771 857 757 842 752 810Z" fill="#f2eadc"/>
+  <circle cx="771" cy="784" r="8" fill="#171411"/>
+  <circle cx="821" cy="784" r="8" fill="#171411"/>
+  <path d="M787 813 L804 813 L796 823Z" fill="#261c19"/>
+  <path d="M729 900 L753 900 L748 953 H715Z M850 900 L875 900 L890 953 H856Z" fill="#8e3925"/>
+  <path d="M715 947 H751 L746 960 H707Z M854 947 H892 L896 960 H857Z" fill="#f4eee0"/>
+  <path d="M734 842 C760 872 830 872 861 839" fill="none" stroke="#efb75d" stroke-width="8" opacity=".55"/>
+</svg>

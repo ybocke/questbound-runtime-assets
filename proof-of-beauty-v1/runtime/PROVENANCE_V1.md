@@ -24,6 +24,18 @@ use stable QuestBound runtime names.
   identity for existing catalog item `AV_UNIVERSAL_HEADGEAR_WIZARD_001`.
 - `ui/qb-guild-cape-v1.webp`: generated supplementary presentation identity for
   existing catalog item `AV_UNIVERSAL_BACK_CAPE_001`.
+- `characters/presentation/qb-ranger-hero-v1.webp`: generated 2.5D presentation
+  render derived from the selected Quaternius Ranger silhouette and texture
+  palette. It represents `AV_UNIVERSAL_OUTFIT_RANGER_001`; it is not a new item.
+- `creatures/presentation/qb-fox-familiar-art-v1.webp`: generated 2.5D
+  presentation render derived from the selected Quaternius fox identity. It
+  represents `AV_UNIVERSAL_FAMILIAR_FOX_001`; it is not a new item.
+
+The two presentation renders are separate transparent layers. That separation
+allows the Student UI to show or hide the familiar and to label preview state
+without changing ownership or equipped state. `tools/chroma-key.js` performs a
+deterministic magenta-key cleanup; generated source PNGs remain outside the
+runtime folder.
 
 Before commercial release, retain the generation records and confirm the then-
 current platform terms for generated presentation art. These images do not
@@ -35,5 +47,8 @@ replace the authoritative equipment IDs or ownership records.
   maximum dimension of 512 px; no external buffer/image URIs.
 - `qb-fox-familiar-v1.glb`: self-contained GLB preserving authored animations;
   no external buffer/image URIs.
-- The Student UI lazy-loads these binaries only when Quartermaster opens.
-- Any failed 3D load fails closed to the existing fully clothed avatar preview.
+- The lightweight 2.5D presentation is the guaranteed path, including on school
+  browsers without WebGL. The Student UI may lazy-load the GLBs only when a
+  compatible 3D enhancement is explicitly enabled.
+- Any failed 3D load fails closed to the polished 2.5D scene or the existing
+  fully clothed avatar preview; it never exposes a raw body mesh.

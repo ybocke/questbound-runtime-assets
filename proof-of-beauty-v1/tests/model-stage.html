@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+    canvas{width:100%;height:100%;display:block;outline:0}
+  </style>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <script>
+    const base='../runtime/';
+
+    function bounds(root){
+      const meshes=root.getChildMeshes?root.getChildMeshes(false):[];
+      if(root instanceof BABYLON.AbstractMesh)meshes.unshift(root);
+      const min=new BABYLON.Vector3(Number.MAX_VALUE,Number.MAX_VALUE,Number.MAX_VALUE);
+      const max=new BABYLON.Vector3(-Number.MAX_VALUE,-Number.MAX_VALUE,-Number.MAX_VALUE);
+      meshes.forEach(m=>{
+        if(!m.getBoundingInfo||!m.isEnabled())return;
+        m.computeWorldMatrix(true);
+        const b=m.getBoundingInfo().boundingBox;
+        min.copyFrom(BABYLON.Vector3.Minimize(min,b.minimumWorld));
+        max.copyFrom(BABYLON.Vector3.Maximize(max,b.maximumWorld));
+      });
+      return {min,max,height:max.y-min.y,width:max.x-min.x};
+    }
+
+    function scaleTo(root,height){
+      const b=bounds(root);
+      if(isFinite(b.height)&&b.height>0)root.scaling.scaleInPlace(height/b.height);
+      root.computeWorldMatrix(true);
+      return bounds(root);
+    }
+
+    async function load(path,scene,name){
+      const c=await BABYLON.SceneLoader.LoadAssetContainerAsync('',base+path,scene,null,'.glb');
+      const root=new BABYLON.TransformNode(name,scene);
+      c.addAllToScene();
+      c.rootNodes.forEach(n=>n.parent=root);
+      return {root,container:c};
+    }
+
+    async function attachTeenHead(scene,parent){
+      const c=await BABYLON.SceneLoader.LoadAssetContainerAsync('',
+        'https://ybocke.github.io/questbound-runtime-assets/characters/bodies/qb-teen-male-v1.glb',
+        scene,null,'.glb');
+      const teen=(c.meshes||[]).find(m=>String(m&&m.name||'').toLowerCase()==='teen_male');
+      if(!teen)throw new Error('Teen head source not found');
+      (c.meshes||[]).forEach(m=>{if(m&&m.setEnabled)m.setEnabled(false)});
+      const p=teen.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+      const idx=teen.getIndices();
+      const keep=[];
+      const neckY=1.29,fillY=1.16,half=.25;
+      for(let i=0;i+2<idx.length;i+=3){
+        const a=idx[i],b=idx[i+1],d=idx[i+2];
+        const ax=p[a*3],bx=p[b*3],dx=p[d*3];
+        const ay=p[a*3+1],by=p[b*3+1],dy=p[d*3+1];
+        const head=ay>=neckY&&by>=neckY&&dy>=neckY;
+        const fill=ay>=fillY&&by>=fillY&&dy>=fillY&&Math.abs(ax)<=half&&Math.abs(bx)<=half&&Math.abs(dx)<=half;
+        if(head||fill)keep.push(a,b,d);
+      }
+      teen.setIndices(keep,null,true);
+      teen.name='QB_TEEN_HEAD_ONLY';
+      teen.refreshBoundingInfo(true);
+      const root=new BABYLON.TransformNode('QB_TEEN_HEAD',scene);
+      root.parent=parent;
+      c.addAllToScene();
+      c.rootNodes.forEach(n=>{n.parent=root;if(n.setEnabled)n.setEnabled(true)});
+      (c.meshes||[]).forEach(m=>{
+        if(!m||!m.setEnabled)return;
+        const n=String(m.name||'').toLowerCase();
+        const approved=n==='qb_teen_head_only'||n.includes('eyes')||n.includes('eyebrow');
+        m.setEnabled(!(m.getTotalVertices&&m.getTotalVertices()>0)||approved);
+      });
+      root.position.y=.255;
+      return root;
+    }
+
+    async function run(){
+      const canvas=document.getElementById('stage');
+      const engine=new BABYLON.Engine(canvas,true,{preserveDrawingBuffer:true,stencil:true,premultipliedAlpha:false});
+      const scene=new BABYLON.Scene(engine);
+      scene.clearColor=new BABYLON.Color4(0,0,0,0);
+      scene.imageProcessingConfiguration.toneMappingEnabled=true;
+      scene.imageProcessingConfiguration.toneMappingType=BABYLON.ImageProcessingConfiguration.TONEMAPPING_ACES;
+      scene.imageProcessingConfiguration.exposure=1.18;
+      scene.imageProcessingConfiguration.contrast=1.14;
+      const camera=new BABYLON.ArcRotateCamera('camera',-Math.PI/2,1.12,6.2,new BABYLON.Vector3(0,1.6,0),scene);
+      camera.fov=.55;
+      camera.inputs.clear();
+      const hemi=new BABYLON.HemisphericLight('soft',new BABYLON.Vector3(0,1,-.3),scene);
+      hemi.intensity=1.2;
+      hemi.diffuse=new BABYLON.Color3(.72,.80,1);
+      hemi.groundColor=new BABYLON.Color3(.18,.08,.025);
+      const key=new BABYLON.DirectionalLight('lantern',new BABYLON.Vector3(.55,-.8,.8),scene);
+      key.position=new BABYLON.Vector3(-3,5,-4);
+      key.diffuse=new BABYLON.Color3(1,.62,.28);
+      key.intensity=3.0;
+      const rim=new BABYLON.DirectionalLight('arcane',new BABYLON.Vector3(-.8,-.25,.45),scene);
+      rim.diffuse=new BABYLON.Color3(.18,.55,1);
+      rim.intensity=1.45;
+
+      const hero=(await load('characters/gear/qb-ranger-outfit-m-v1.glb',scene,'QB_RANGER_HERO')).root;
+      await attachTeenHead(scene,hero);
+      hero.rotation.y=Math.PI;
+      scaleTo(hero,3.65);
+      const hb=bounds(hero);
+      hero.position.y=-hb.min.y;
+      hero.position.x=-.25;
+
+      const foxLoad=await load('creatures/qb-fox-familiar-v1.glb',scene,'QB_FOX_FAMILIAR');
+      const fox=foxLoad.root;
+      scaleTo(fox,1.05);
+      let fb=bounds(fox);
+      fox.position.y=-fb.min.y;
+      fox.position.x=1.18;
+      fox.position.z=-.15;
+      fox.rotation.y=Math.PI*.82;
+      const idle=(foxLoad.container.animationGroups||[]).find(g=>/^idle$/i.test(g.name))||(foxLoad.container.animationGroups||[])[0];
+      if(idle)idle.start(true,1.0);
+
+      engine.runRenderLoop(()=>scene.render());
+      engine.resize();
+      await new Promise(r=>setTimeout(r,900));
+      window.QB_READY=true;
+      window.QB_SCENE={engine,scene,camera,hero,fox};
+    }
+    run().catch(e=>{document.body.dataset.error=e.stack||e.message;console.error(e)});
+  </script>
+</body>
+</html>
